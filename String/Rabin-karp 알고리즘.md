@@ -11,59 +11,60 @@
 
 * ### 구현 
 
-
-    패턴을 숫자화 시키고 원문에 비교할 부분을 숫자로 만들어준다. 하지만 원문의 비교할 부분을 계속 숫자로 만든다면 계속 비교하는 것과 차이가 없어진다. 그렇기에 계산 식을 줄여주기 위하여
+  패턴을 숫자화 시키고 원문에 비교할 부분을 숫자로 만들어준다. 하지만 원문의 비교할 부분을 계속 숫자로 만든다면 계속 비교하는 것과 차이가 없어진다. 그렇기에 계산 식을 줄여주기 위하여
 
   ```
-    (현재숫자/26) + (다음 추가할 문자 - 'a') * 26^( 비교문자길이 -1 )
+      (현재숫자/26) + (다음 추가할 문자 - 'a') * 26^( 비교문자길이 -1 )
   ```
 
-   를 이용하여 계산 과정을 줄인다.
+  를 이용하여 계산 과정을 줄인다.
 
   ```c++
-    #include <iostream>
-    #include <cstring>
-    #include <cmath>
-    
-    char entireStr[100];
-    char findStr[10];
-    
-    int main(int argc, char* argv[])
-    {
-    	std::cin >> entireStr;
-    	std::cin >> findStr;
-    
-    	int entireLen = strlen(entireStr);
-    	int findLen = strlen(findStr);	
-    
-    	unsigned long long int findNum = 0;		//찾는 문자 숫자화
-    	for (int i = 0; i < findLen; ++i)
-    		findNum += (findStr[i] - 'a') * powl(26, i);
-    
-    	unsigned long long int compareNum = 0;
-    	for (int i = 0; i < findLen; ++i)		//전체 문자에서 찾는 부분 초기
-    		compareNum += (entireStr[i] - 'a') * powl(26, i);
-    
-    	int i = findLen - 1;
-    	bool isFind = false;
-    	do
-    	{
-    		if (findNum == compareNum)
-    		{
-    			isFind = true;
-    			break;
-    		}
-    		//p(n) = 새로운 값 * pow(26,findLen-1) +(p(n-1) - 마지막 원소) /26
-    		++i;					//전진
-    		compareNum /= 26;		//전체의 차수를 줄여줌
-    		compareNum += (entireStr[i] - 'a') * pow(26, findLen - 1);
-    	} while (i<entireLen);
-    
-    	std::cout << (isFind ? "Find" : "Not Find") << "\n";
-    
-    	return 0;
-    }
+  #include <iostream>
+      #include <cstring>
+      #include <cmath>
+      
+      char entireStr[100];
+      char findStr[10];
+      
+      int main(int argc, char* argv[])
+      {
+      	std::cin >> entireStr;
+      	std::cin >> findStr;
+      
+      	int entireLen = strlen(entireStr);
+      	int findLen = strlen(findStr);	
+      
+      	unsigned long long int findNum = 0;		//찾는 문자 숫자화
+      	for (int i = 0; i < findLen; ++i)
+      		findNum += (findStr[i] - 'a') * powl(26, i);
+      
+      	unsigned long long int compareNum = 0;
+      	for (int i = 0; i < findLen; ++i)		//전체 문자에서 찾는 부분 초기
+      		compareNum += (entireStr[i] - 'a') * powl(26, i);
+      
+      	int i = findLen - 1;
+      	bool isFind = false;
+      	do
+      	{
+      		if (findNum == compareNum)
+      		{
+      			isFind = true;
+      			break;
+      		}
+      		//p(n) = 새로운 값 * pow(26,findLen-1) +(p(n-1) - 마지막 원소) /26
+      		++i;					//전진
+      		compareNum /= 26;		//전체의 차수를 줄여줌
+      		compareNum += (entireStr[i] - 'a') * pow(26, findLen - 1);
+      	} while (i<entireLen);
+      
+      	std::cout << (isFind ? "Find" : "Not Find") << "\n";
+      
+      	return 0;
+      }
   ```
+
+  
 
   
 
